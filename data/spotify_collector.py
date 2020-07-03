@@ -5,7 +5,7 @@ import pandas as pd
 spotify = spotipy.Spotify(auth_manager=SpotifyClientCredentials())
 
 def fetch_playlists(min_followers=0, store_csv=False):
-    """ Retrieves playlists containing the keyword 'bolivia'.
+    """ Retrieves playlists containing the keywor'bolivia'.
 
        Parameters:
        - min_followers (int): Minimum number of followers to keep the item. 
@@ -26,6 +26,7 @@ def fetch_playlists(min_followers=0, store_csv=False):
             data['id'].append(playlist['id'])
             data['name'].append(playlist['name'])
             data['followers'].append(n_followers)
+            data['tracks'].append(playlist['tracks']['total'])
             data['owner_name'].append(playlist['owner']['display_name'])
             data['owner_id'].append(playlist['owner']['id'])
             data['description'].append(playlist['description'])
@@ -41,10 +42,11 @@ def _build_playlist_data():
         'id': [],
         'name': [],
         'followers': [],
+        'tracks': [],
         'owner_name': [],
         'owner_id': [],
         'description': [],
     }
 
 if __name__ == "__main__":
-    playlists = fetch_playlists()
+    playlists_df = fetch_playlists()
