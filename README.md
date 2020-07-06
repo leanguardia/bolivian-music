@@ -1,15 +1,14 @@
-# Bolivian Music Recommender
+# Bolivian Artists Recommender
 ### Sistema de recomendación de Música Boliviana
 
-Bolivian has huge and varied music talent. However, not many people know it. Implementing a
-recommender systems and make it public will help bolivians and the world to discover amazing
-bolivian music.
+Bolivian musicians are very talented but unfortunately not many people know it. This data-based project aims to promote bolivian artists and make them more visible for locals and the world.
 
-This Data Science project about bolivian music consists in:
-1. The construction of a dataset of bolivian artists from Spotify data.
-3. Artists Segmentation with unsupervised learning techniques.
-3. The implementation of a web app for music recommendations
-application for a knowledge-based recommeder system for Bolivian music.
+The project consists in:
+- The construction of a dataset of bolivian artists by fetching public Spotify data.
+
+- The application of data clustering techniques to segment the collected data and gain
+  artists description.
+- The implementation of a web app for data visualization and knowledge-based artist recommendations.
 
 ## Dependencies
 
