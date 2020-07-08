@@ -25,7 +25,7 @@ def fetch_playlists(min_followers=0):
         playlist = spotify.playlist(playlist_simple['id'])
         n_followers = playlist['followers']['total']
         if n_followers >= min_followers:
-            data['id'].append(playlist['id'])
+            data['playlist_id'].append(playlist['id'])
             data['name'].append(playlist['name'])
             data['followers'].append(n_followers)
             data['tracks'].append(playlist['tracks']['total'])
@@ -57,12 +57,12 @@ def clean_playlists(df):
         '1OciHZQgk4kMSxhVYivJLQ', # Martin Stephenson And The Daintees – Boat To Bolvia
         '2MGqkd7u2u87tLLFyzJ7DH', # Bolivia Top 100
     ]
-    df = df[~df.id.isin(remove_ids)]
+    df = df[~df.playlist_id.isin(remove_ids)]
     return df
 
 def _build_playlist_data():
     return {
-        'id': [],
+        'playlist_id': [],
         'name': [],
         'followers': [],
         'tracks': [],
@@ -72,6 +72,7 @@ def _build_playlist_data():
     }
 
 def main(args):
+    command_sample = 'playlist_collector.py -c -s data/playlists.csv'
     store_csv = False
     output_filepath = 'data/playlists.csv'
     clean_df = False
@@ -79,27 +80,27 @@ def main(args):
     try:
         opts, args = getopt.getopt(args,"cs:",["clean","store"])
     except getopt.GetoptError:
-        print('playlist_collector.py -c -s -o <filepath>')
+        print(command_sample)
         sys.exit(2)
-    
-    print("Pulling data from Spotify …")
-    df = fetch_playlists()
-    print("Fetching Done: {} playlists".format(df.shape[0]))
 
     # Parse options and arguments
     for opt, arg in opts:
-        if opt in ("-c", "clean"):
+        if opt in ("-c", "--clean"):
             clean_df = True
-        elif opt in ("-s", "store"):
+        elif opt in ("-s", "--store"):
             store_csv = True
             output_filepath = arg or output_filepath
         else:
             print("Unknown option:", opt)
-            print("playlist_collector.py -c -s -o data/playlists.csv")
+            print(command_sample)
             sys.exit()
 
+    print("Pulling data from Spotify…")
+    df = fetch_playlists()
+    print("Fetching Done: {} playlists".format(df.shape[0]))
+
     # Clean and Filter elements
-    if clean_df: 
+    if clean_df:
         df = clean_playlists(df)
         print("Cleaning Done: {} playlists".format(df.shape[0]))
 
@@ -109,6 +110,7 @@ def main(args):
         df.to_csv(output_filepath, index=False)
 
     return df
+
 
 if __name__ == "__main__":
     playlists_df = main(sys.argv[1:])
