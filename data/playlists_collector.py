@@ -38,6 +38,28 @@ def fetch_playlists(min_followers=0):
     df = pd.DataFrame(data, columns=data.keys())
     return df
 
+def clean_playlists(df):
+    """ Filter irrelevant playlists. """
+
+    # Keep items with Bolivia in the name.
+    # Exclude Lamento (Lamento Boliviano is an argentinian song).
+    df = df[df.name.str.contains('olivia|OLIVIA') & ~df.name.str.contains('Lamento|lamento')]
+    
+    # Manually remove irrelevant playlists.
+    remove_ids = [
+        '37i9dQZEVXbJqfMFK4d691', # Bolivia Top 50
+        '37i9dQZEVXbMTKZuy8ORFV', # Bolivia Viral 50
+        '7xg9H8UArAZRNW4UbtkuYG', # TOP HITS BOLIVIA
+        '321jPs2Obj2j8qzroYv4S2', # La Previa Dj Micky
+        '37i9dQZF1DX2LWCSft2vqi', # Top Artistas 2019
+        '3L0GTgyBzx3cITSPBqE5CE', # Top 50
+        '37i9dQZF1DXcaON5GWABL3', # Top 2019
+        '1OciHZQgk4kMSxhVYivJLQ', # Martin Stephenson And The Daintees – Boat To Bolvia
+        '2MGqkd7u2u87tLLFyzJ7DH', # Bolivia Top 100
+    ]
+    df = df[~df.id.isin(remove_ids)]
+    return df
+
 def _build_playlist_data():
     return {
         'id': [],
@@ -52,26 +74,34 @@ def _build_playlist_data():
 def main(args):
     store_csv = False
     output_filepath = 'data/playlists.csv'
+    clean_df = False
 
     try:
-        opts, args = getopt.getopt(args,"so:",["store","ofile="])
+        opts, args = getopt.getopt(args,"cs:",["clean","store"])
     except getopt.GetoptError:
-        print('playlist_collector.py -s -o <filepath>')
+        print('playlist_collector.py -c -s -o <filepath>')
         sys.exit(2)
     
     print("Pulling data from Spotify …")
     df = fetch_playlists()
-    print("Done: {} playlists fetched".format(df.shape[0]))
+    print("Fetching Done: {} playlists".format(df.shape[0]))
 
     # Parse options and arguments
     for opt, arg in opts:
-        if opt in ("-s", "store"):
+        if opt in ("-c", "clean"):
+            clean_df = True
+        elif opt in ("-s", "store"):
             store_csv = True
-        elif opt in ("-o", "--output"):
             output_filepath = arg or output_filepath
         else:
-            print("playlist_collector.py -s -o data/playlist.csv")
+            print("Unknown option:", opt)
+            print("playlist_collector.py -c -s -o data/playlists.csv")
             sys.exit()
+
+    # Clean and Filter elements
+    if clean_df: 
+        df = clean_playlists(df)
+        print("Cleaning Done: {} playlists".format(df.shape[0]))
 
     # Store data to csv
     if store_csv: 
