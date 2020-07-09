@@ -10,8 +10,7 @@ def fetch_playlists(min_followers=0):
     """ Retrieves playlists data containing the keyword 'bolivia'.
 
        Parameters:
-       - min_followers (int): Minimum number of followers verified to keep the item. 
-       - store_csv (bool):    If true a csv file is stored.
+       - min_followers (int): Minimum number of followers verified to keep the item.
 
        Returns:
        - playlists (dataframe): Returns a dataframe containing retrieved results. 

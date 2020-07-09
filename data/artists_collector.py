@@ -41,6 +41,10 @@ def fetch_artists(playlist_ids):
             data['followers'].append(artist['followers']['total'])
             data['popularity'].append(artist['popularity'])
             data['genres'].append(artist['genres'])
+            if len(artist['images']) > 0:
+                data['img_url'].append(artist['images'][0]['url'])
+            else:
+                data['img_url'].append(None)
 
     df = pd.DataFrame(data, columns=data.keys())
     df = df.sort_values(by='followers', ascending=False)
@@ -96,6 +100,7 @@ def _build_artists_data():
         'popularity': [],
         'followers': [],
         'genres': [],
+        'img_url': [],
     }
 
 
