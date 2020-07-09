@@ -6,12 +6,11 @@ import numpy as np
 
 spotify = spotipy.Spotify(auth_manager=SpotifyClientCredentials())
 
-def fetch_artists(playlist_ids, store_csv=False):
+def fetch_artists(playlist_ids):
     """ Retrieves artists data from playlists'.
 
        Parameters:
        - playlist_ids (list): List of Spotify Playlist ids.
-       - store_csv (bool):    If true a csv file is stored.
 
        Returns:
        - artists (dataframe): Returns a dataframe containing retrieved results.
@@ -44,7 +43,7 @@ def fetch_artists(playlist_ids, store_csv=False):
             data['genres'].append(artist['genres'])
 
     df = pd.DataFrame(data, columns=data.keys())
-    if store_csv: df.to_csv('data/artists.csv', index=False)
+    df = df.sort_values(by='followers', ascending=False)
     return df
 
 def clean_artists(df):
@@ -60,6 +59,32 @@ def clean_artists(df):
     # Remove manually selected artists
     excluded_artists = pd.read_csv('data/artists_excluded.csv')
     df = df[~df.artist_id.isin(excluded_artists.artist_id)]
+
+    # Manually add genres to artists
+    df = _extend_genres(df)
+
+    return df
+
+
+def _extend_genres(df):
+    assignments = [{
+        'genre': 'folklore boliviano',
+        'names': ['Andesur', 'Canto Popular', 'Antares', 'Bolivia', 'Banda Intercontinental Poopó']
+    }, {
+        'genre': 'hip hop boliviano',
+        'names': ['Mc J Rap', 'Zckrap', 'Erick Claros']
+    }, {
+        'genre': 'latin pop',
+        'names': ['Bolivia Band']
+    }, {
+        'genre': 'reggae en espanol',
+        'names': ['Illapa Reggae']
+    }]
+
+    for assignment in assignments:
+        genre, names = assignment['genre'], assignment['names']
+        to_modify = df.name.isin(names)
+        df[to_modify].genres.apply(lambda genres: genres.append(genre))
 
     return df
 
@@ -94,8 +119,7 @@ def main(args):
     except getopt.GetoptError:
         print(command_sample)
         sys.exit(2)
-    
-    print(opts)
+
     # Parse options and arguments
     for opt, arg in opts:
         if opt in ("-p", "--playlists"):
