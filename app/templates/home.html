@@ -33,32 +33,63 @@
 
   <div class="row">
     <div class="col">
-      <h2>Populars/Populares <small>({{rank_artists['popular']|length}})</small></h2>
-      {% for artist in rank_artists['popular'] %}
-        <div class="card text-center border-warning" style="width: 18rem;">
-          <img src="{{ artist['img_url']}}" class="card-img-top" alt="{{ artist['id'] }}">
-          <div class="card-body">
-            <h5 class="card-title">{{ artist['name'] }}</h5>
-            <p class="card-text">{{ artist['genres'] }}</p>
-            <!-- <a href="https://open.spotify.com/artist/{{ artist['id'] }}" class="card-link">Listen</a> -->
+      <h2 class="mb-4">Populars/Populares <small>({{rank_artists['popular']|length}})</small></h2 class="mb-4">
+      <div class ="row row-cols-5 row-cols-md-5">
+        {% for artist in rank_artists['popular'] %}
+        <div class ="col mb-3">
+          <div class="card text-center border-warning" style="width: 12rem;">
+            <img src="{{ artist['img_url']}}" class="card-img-top" alt="{{ artist['id'] }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ artist['name'] }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted text-small">
+                {{ artist['genres'][0] }} 
+                {% for genre in artist['genres'][1:] %}
+                  |  {{ genre }} 
+                {% endfor %}
+              </h6>
+            </div>
+            <div class="card-footer text-muted">
+              <a href='https://open.spotify.com/artist/{{ artist["artist_id"] }}'
+              target="_blank" class="card-link">Listen</a>
+            </div>
           </div>
         </div>
-      {% endfor %}
+        {% endfor %}
+      </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <h2>Blooming/Floreciendo <small>({{rank_artists['blooming']|length}})</small></h2>
-      {% for artist in rank_artists['blooming'] %}
-        <p>{{ artist['name'] }}</p>
-      {% endfor %}
+      <h2 class="mb-4">Blooming/Floreciendo <small>({{rank_artists['blooming']|length}})</small></h2 class="mb-4">
+      <div class ="row row-cols-5 row-cols-md-5">
+        {% for artist in rank_artists['blooming'] %}
+        <div class ="col mb-3">
+          <div class="card text-center border-success" style="width: 12rem;">
+            <img src="{{ artist['img_url']}}" class="card-img-top" alt="{{ artist['id'] }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ artist['name'] }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted text-small">
+                {{ artist['genres'][0] }} 
+                {% for genre in artist['genres'][1:] %}
+                  |  {{ genre }} 
+                {% endfor %}
+              </h6>
+            </div>
+            <div class="card-footer text-muted">
+              <a href='https://open.spotify.com/artist/{{ artist["artist_id"] }}'
+              target="_blank" class="card-link">Listen</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <h2>Starters/Peques <small>({{rank_artists['starters']|length}})</small></h2>
+      <h2 class="mb-4">Starters/Peques <small>({{rank_artists['starters']|length}})</small></h2 class="mb-4">
       {% for artist in rank_artists['starters'] %}
         <p>{{ artist['name'] }}</p>
       {% endfor %}
@@ -67,7 +98,7 @@
 
   <div class="row">
     <div class="col">
-      <h2>Unknown/Desconocidos <small>({{rank_artists['unkown']|length}})</small></h2>
+      <h2 class="mb-4">Unknown/Desconocidos <small>({{rank_artists['unkown']|length}})</small></h2 class="mb-4">
       {% for artist in rank_artists['unkwown'] %}
         <p>{{ artist['name'] }}</p>
       {% endfor %}
