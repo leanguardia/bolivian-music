@@ -42,7 +42,8 @@ def fetch_artists(playlist_ids):
             data['popularity'].append(artist['popularity'])
             data['genres'].append(artist['genres'])
             if len(artist['images']) > 0:
-                data['img_url'].append(artist['images'][0]['url'])
+                img_url = artist['images'][0]['url'].strip()
+                data['img_url'].append(img_url)
             else:
                 data['img_url'].append(None)
 
@@ -80,6 +81,9 @@ def _extend_genres(df):
     }, {
         'genre': 'latin pop',
         'names': ['Bolivia Band']
+    }, {
+        'genre': 'indie boliviano',
+        'names': ['Lapsus !']
     }, {
         'genre': 'reggae en espanol',
         'names': ['Illapa Reggae']
@@ -139,9 +143,9 @@ def main(args):
             print(command_sample)
             sys.exit()
 
-    print("Loading Playlists …")
+    print("Loading Playlists")
     playlists = pd.read_csv(input_filepath)
-    print("Exploring artists from {} playlists".format(playlists.shape[0]))
+    print("Exploring artists from {} playlists …".format(playlists.shape[0]))
     df = fetch_artists(playlists.playlist_id)
     print("Fething Done: {} artists fetched".format(df.shape[0]))
 
