@@ -1,40 +1,54 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<!-- Page Content -->
-<div class="container">
 
+<div class="container">
   <div class="row">
-    <div class="col-md-8 mb-5">
-      <h2>Top Artistas <small>Del Siglo</small> </h2>
-      <hr>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis optio neque consectetur consequatur magni in nisi, natus beatae quidem quam odit commodi ducimus totam eum, alias, adipisci nesciunt voluptate. Voluptatum.</p>
-      <a class="btn btn-success btn-lg" href="#">Call to Action &raquo;</a>
-    </div>
-    <div class="col-md-4 mb-5">
-      <h2>Contact Us</h2>
-      <hr>
-      <address>
-        <strong>Start Bootstrap</strong>
-        <br>3481 Melrose Place
-        <br>Beverly Hills, CA 90210
-        <br>
-      </address>
-      <address>
-        <abbr title="Phone">P:</abbr>
-        (123) 456-7890
-        <br>
-        <abbr title="Email">E:</abbr>
-        <a href="mailto:#">name@example.com</a>
-      </address>
+    <div class="col">
+      <h2>The Top <small>({{ rank_artists['top']|length }})</small></h2>
+      {% for artist in rank_artists['top'] %}
+        <p>{{ artist['name'] }}</p>
+      {% endfor %}
     </div>
   </div>
-  <!-- /.row -->
 
-  <div class="row mt-3">
+  <div class="row">
     <div class="col">
-      <div class="glide">
+      <h2>Populars/Populares <small>({{rank_artists['popular']|length}})</small></h2>
+      {% for artist in rank_artists['popular'] %}
+        <p>{{ artist['name'] }}</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <h2>Blooming/Floreciendo <small>({{rank_artists['blooming']|length}})</small></h2>
+      {% for artist in rank_artists['blooming'] %}
+        <p>{{ artist['name'] }}</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <h2>Starters/Peques <small>({{rank_artists['starters']|length}})</small></h2>
+      {% for artist in rank_artists['starters'] %}
+        <p>{{ artist['name'] }}</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <h2>Unknown/Desconocidos <small>({{rank_artists['unkown']|length}})</small></h2>
+      {% for artist in rank_artists['unkwown'] %}
+        <p>{{ artist['name'] }}</p>
+      {% endfor %}
+    </div>
+  </div>
+
+      <!-- <div class="glide-top">
         <div class="glide__track" data-glide-el="track">
           <ul class="glide__slides">
             <li class="glide__slide">0</li>
@@ -52,10 +66,8 @@
           <button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
           <button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
         </div>
-      </div>
-    </div>
-  </div >
+      </div> -->
 
-</div>
-<!-- /.container -->
+</div> <!-- container -->
+
 {% endblock %}
