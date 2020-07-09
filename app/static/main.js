@@ -6,6 +6,6 @@ $(document).ready(function() {
     perView: 2,
   };
 
-  new Glide('.glide', config).mount();
+  // new Glide('.glide', config).mount();
 
 });
