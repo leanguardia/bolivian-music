@@ -72,7 +72,7 @@ The artsts collector loads `data/playlists.csv` by default. However, a specific 
 passed with the `-p` flag as follows.
 ```
 python data/artists_collector.py -p data/my_playlists.csv
-````
+```
 Similar to the playlists collector it stores a file if the `-s` flag is passed with an
 optional output filepath argument. And again, the cleaning and filtering is optional with the
 `-c` flag.
@@ -94,20 +94,29 @@ artists data. After analyzing the results, the key findings were the following:
   This might have been caused by the low quality of genres data and the relative small size
   of the dataset in general.
 
-### Running Tests.
-```
-python -m pytest
-```
-
 
 ## The web site
-It is a `Flask` app that shows the artist groups learned in the previuos analysis. Start the server by running:
+It is a `Flask` app that shows the artist groups learned in the previuos analysis. 
+
+First, create the database by running:
+```
+from app import app as ap, db
+    with ap.app_context():
+        db.create_all()
+```
+
+Start the server by running:
 ```
 python app/server.py
 ```
 Then go to localhost (0.0.0.0:3003) to see the website
 
 ![Homepage layout](homepage.png)
+
+### Running Tests.
+```
+python -m pytest
+```
 
 ## Future Work
 - Collect more artists metadeta (e.g. group/individual, first release date, last release
