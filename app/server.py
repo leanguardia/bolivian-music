@@ -1,12 +1,15 @@
-from flask import Flask
-from flask import Flask
-from flask import render_template, request, jsonify
-
 import pandas as pd
 import numpy as np
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask import render_template, request, jsonify
 from ast import literal_eval
 
+from app.models import db
+
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://///Users/delgard/DataScience/bolivian-music/lake/bolivian_music_dev.db'
+db.init_app(app)
 
 @app.route('/')
 @app.route('/index')
