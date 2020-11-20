@@ -94,6 +94,11 @@ artists data. After analyzing the results, the key findings were the following:
   This might have been caused by the low quality of genres data and the relative small size
   of the dataset in general.
 
+### Running Tests.
+```
+python -m pytest
+```
+
 
 ## The web site
 It is a `Flask` app that shows the artist groups learned in the previuos analysis. Start the server by running:
