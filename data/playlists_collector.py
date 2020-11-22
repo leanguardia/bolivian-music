@@ -1,10 +1,13 @@
-import sys, getopt
+import sys, getopt, argparse, time
+
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import pandas as pd
 import numpy as np
 
 spotify = spotipy.Spotify(auth_manager=SpotifyClientCredentials())
+
+get_milli_time = lambda: int(round(time.time() * 1000))
 
 def fetch_playlists(min_followers=0):
     """ Retrieves playlists data containing the keyword 'bolivia'.
@@ -72,8 +75,8 @@ def _build_playlist_data():
 
 def main(args):
     command_sample = 'playlist_collector.py -c -s data/playlists.csv'
-    store_csv = False
-    output_filepath = 'data/playlists.csv'
+    store_csv = True
+    output_filepath = 'data/playlists-%s.csv' % get_milli_time()
     clean_df = False
 
     try:
@@ -94,19 +97,18 @@ def main(args):
             print(command_sample)
             sys.exit()
 
-    print("Pulling data from Spotify…")
+    print("Extract from Spotify…")
     df = fetch_playlists()
+    if store_csv: 
+        print("Storing Data in {}".format(output_filepath))
+        df.to_csv(output_filepath, index=False)
+    
     print("Fetching Done: {} playlists".format(df.shape[0]))
 
     # Clean and Filter elements
     if clean_df:
         df = clean_playlists(df)
         print("Cleaning Done: {} playlists".format(df.shape[0]))
-
-    # Store data to csv
-    if store_csv: 
-        print("Storing Data in {}".format(output_filepath))
-        df.to_csv(output_filepath, index=False)
 
     return df
 
