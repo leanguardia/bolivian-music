@@ -3,11 +3,11 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  const [currentTime, setCurrentTime] = useState(0);
+  const [artists, setArtists] = useState(0);
 
   useEffect(() => {
-    fetch('/time').then(res => res.json()).then(data => {
-       setCurrentTime(data.time);
+    fetch('/artists').then(res => res.json()).then(data => {
+       setArtists(data.artists);
     });
   }, []);
 
@@ -26,7 +26,7 @@ function App() {
         >
           Learn React
         </a>
-        <p>The currrent time is { currentTime }.</p>
+        { artists.map((artist, index) => <p key={index}>{artist}</p>)}
       </header>
     </div>
   );

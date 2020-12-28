@@ -11,9 +11,9 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://///Users/delgard/DataScience/bolivian-music/lake/bolivian_music_dev.db'
 db.init_app(app)
 
-@app.route('/time') # Temporary
-def get_current_time():
-  return { 'time': 'whateva acshali' }
+@app.route('/artists')
+def artists():
+  return { 'artists': ['bob martin', 'chila jatun'] }
 
 @app.route('/')
 @app.route('/index')
